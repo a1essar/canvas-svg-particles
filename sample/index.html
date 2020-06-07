@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <title>Create Particles Figure From Svg</title>
+    <script src='../src/main.ts'></script>
+    <style>
+        html, body, #app {
+            width: 100%;
+            height: 100%;
+            min-height: 100%;
+            margin: 0;
+        }
+
+        #app {
+            position: relative;
+            z-index: 0;
+        }
+    </style>
+</head>
+<body>
+<div id='app'></div>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/stats.js/r16/Stats.min.js'></script>
+<script>
+    var stats = new Stats();
+    stats.showPanel(0);
+    stats.domElement.style.position = 'absolute';
+    stats.domElement.style.left = '0px';
+    stats.domElement.style.top = '0px';
+    document.body.appendChild(stats.domElement);
+
+    window.figures = {
+        spacex: [
+            'M 15.172837,11.564688 H 3.6218369 l -0.627,1.193 12.8280001,9.351 c 2.43,-1.407 5.074,-2.833 7.95,-4.24',
+            'm 25.522837,29.179688 11.275,8.222 h 11.692 l 0.484,-1.089 -16.836,-12.323 c -2.236,1.641 -4.445,3.374 -6.615,5.19',
+            'M 13.453837,37.382688 H 3.0028369 l -0.883,-1.383 c 7.106,-6.861 38.8880001,-36.2720003 107.9720031,-39.4230003 0,0 -57.986003,1.956 -96.638003,40.8060003',
+        ],
+        mcdonald: [
+            'm195.8 17.933c23.3 0 42.2 98.3 42.2 219.7h34c0-130.7-34.3-236.5-76.3-236.5-24 0-45.2 31.7-59.2 81.5-14-49.8-35.2-81.5-59-81.5-42 0-76.2 105.7-76.2 236.4h34c0-121.4 18.7-219.6 42-219.6s42.2 90.8 42.2 202.8h33.8c0-112 19-202.8 42.3-202.8'
+        ],
+        avengers: [
+            'M362.667,68.188V10.667C362.667,4.771,357.896,0,352,0h-64c-4.104,0-7.854,2.354-9.625,6.063l-17.479,36.552c-0.406,0-0.823,0.01-1.219,0.01L256,42.667c-129.396,0-234.667,105.271-234.667,234.667c0,40.083,10.417,79.792,30.115,114.833c1.948,3.458,5.74,5.531,9.656,5.427c3.979-0.125,7.552-2.458,9.271-6.052l24.042-50.271c1.208-2.531,1.375-5.448,0.458-8.094c-6.333-18.271-9.542-37.063-9.542-55.844c0-84.802,61.906-155.656,144-168.708L43.708,496.729c-1.583,3.302-1.354,7.188,0.604,10.292c1.948,3.104,5.354,4.979,9.021,4.979h64c4.271,0,8.125-2.542,9.802-6.469l61.229-142.865H288v10.667c0,4.104,2.354,7.833,6.042,9.615c3.708,1.792,8.083,1.271,11.292-1.281L358.667,339c2.531-2.031,4-5.094,4-8.333c0-3.24-1.469-6.302-4-8.333l-53.333-42.667c-3.219-2.573-7.625-3.083-11.292-1.281c-3.688,1.781-6.042,5.51-6.042,9.615v10.667h-68.833L288,145.698v99.635c0,3.24,1.469,6.302,4,8.333l53.333,42.667c3.188,2.563,7.594,3.052,11.292,1.281c3.688-1.781,6.042-5.51,6.042-9.615V144.417c40.406,32.417,64,80.802,64,132.917c0,53.753-25.039,101.707-64,133.014v-37.014c0-4.104-2.354-7.833-6.042-9.615c-3.708-1.781-8.094-1.281-11.292,1.281L292,407.667c-3.531,2.833-4.896,7.594-3.396,11.865c1.5,4.271,5.531,7.135,10.063,7.135h39.773C313.98,440.225,285.892,448,256,448c-22.042,0-43.646-4.24-64.208-12.604c-5.375-2.146-11.531,0.344-13.823,5.688l-16.813,39.24c-1.125,2.625-1.156,5.594-0.073,8.229c1.083,2.646,3.177,4.75,5.823,5.833C195.333,506.073,225.313,512,256,512c129.396,0,234.667-105.271,234.667-234.667C490.667,189.708,440.646,108.354,362.667,68.188z'
+        ],
+        batman: [
+            'M422.526,8.5l-83.992,101.817c-23.053-13.124-50.621-19.662-78.912-19.662c-28.492,0-55.245,6.634-78.406,19.965L99.008,8.5 L98.95,264.256c-0.413,6.682,0,13.489,0,20.574c0,97.853,39.925,181.832,97.045,217.979c-32.169-41.475-60.02-86.493-47.117-130.216 c73.937-2.977,81.752-3.369,81.752-3.369l26.114,21.285l32.117-21.285c53.774,0.383,79.155,1.497,79.155,1.497 c3.332,27.401-1.432,87.493-47.404,132.569c57.5-35.907,98.217-120.185,98.217-218.449c0-6.884-0.303-13.536-0.303-20.037 L422.526,8.5z',
+            'M223.42,296.908c-7.719,3.092-25.005,13.278-33.037,15.746 c-8.031,2.477-19.14,4.013-23.464,0c-4.325-4.014-18.223-17.291-20.998-20.373c-2.779-3.101-4.632-27.804,11.732-26.557 c16.667,1.259,61.753,19.759,64.533,20.681C224.966,287.337,231.14,293.817,223.42,296.908z',
+            'M370.963,292.281c-2.772,3.082-16.674,16.359-20.991,20.373 c-4.335,4.013-15.433,2.477-23.463,0c-8.028-2.468-25.318-12.655-33.038-15.746c-7.728-3.091-1.547-9.571,1.229-10.503 c2.779-0.922,47.865-19.422,64.537-20.681C375.607,264.478,373.753,289.181,370.963,292.281z',
+        ],
+        spidey: [
+            'M359.451,55.662c-17.117-17.733-37.112-31.592-59.43-41.19C277.694,4.869,254.135,0,230,0s-47.693,4.869-70.022,14.472 c-22.317,9.598-42.312,23.457-59.429,41.19C64.135,93.387,44.082,146.14,44.082,204.204c0,59.534,20.215,122.633,55.463,173.117 C136.229,429.865,183.779,460,230,460s93.771-30.135,130.455-82.678c35.247-50.485,55.463-113.583,55.463-173.117 C415.918,146.14,395.865,93.387,359.451,55.662z M344.057,365.873C311.166,412.982,269.594,440,230,440 c-39.594,0-81.166-27.018-114.057-74.127C83.469,319.36,64.082,258.923,64.082,204.204C64.082,84.559,149.567,20,230,20 c80.433,0,165.918,64.559,165.918,184.204C395.918,258.923,376.531,319.36,344.057,365.873z',
+            'M218.818,250.821c-0.627-0.518-63.23-52.502-108.156-109.685c-2.384-3.035-6.301-4.427-10.068-3.576 c-3.765,0.851-6.704,3.792-7.551,7.558c-6.729,29.899-5.932,64.043,2.188,93.677c10.46,38.171,32.418,66.797,63.502,82.784 c1.449,0.745,3.016,1.107,4.571,1.107c2.589,0,5.145-1.005,7.065-2.921c1.34-1.337,33.021-33.003,50.011-55.15 C223.656,260.346,222.966,254.25,218.818,250.821z M161.546,300.233c-45.331-27.746-56.097-85.693-52.268-129.264 c34.499,40.377,73.232,75.035,89.286,88.892C186.34,274.566,169.878,291.713,161.546,300.233z',
+            'M366.957,145.118c-0.848-3.766-3.786-6.707-7.552-7.558c-3.767-0.851-7.684,0.541-10.067,3.576 c-44.881,57.127-107.528,109.167-108.156,109.686c-4.146,3.429-4.837,9.524-1.563,13.793c16.99,22.147,48.67,53.813,50.011,55.15 c1.92,1.916,4.476,2.921,7.065,2.921c1.555,0,3.122-0.362,4.57-1.107c31.084-15.987,53.043-44.614,63.503-82.784 C372.889,209.162,373.687,175.018,366.957,145.118z M298.453,300.234c-8.329-8.518-24.79-25.663-37.017-40.373 c16.05-13.854,54.783-48.511,89.285-88.891C354.55,214.541,343.784,272.488,298.453,300.234z',
+        ],
+        google: [
+            'M115.75 47.18c0 12.77-9.99 22.18-22.25 22.18s-22.25-9.41-22.25-22.18C71.25 34.32 81.24 25 93.5 25s22.25 9.32 22.25 22.18zm-9.74 0c0-7.98-5.79-13.44-12.51-13.44S80.99 39.2 80.99 47.18c0 7.9 5.79 13.44 12.51 13.44s12.51-5.55 12.51-13.44z',
+            'M163.75 47.18c0 12.77-9.99 22.18-22.25 22.18s-22.25-9.41-22.25-22.18c0-12.85 9.99-22.18 22.25-22.18s22.25 9.32 22.25 22.18zm-9.74 0c0-7.98-5.79-13.44-12.51-13.44s-12.51 5.46-12.51 13.44c0 7.9 5.79 13.44 12.51 13.44s12.51-5.55 12.51-13.44z',
+            'M209.75 26.34v39.82c0 16.38-9.66 23.07-21.08 23.07-10.75 0-17.22-7.19-19.66-13.07l8.48-3.53c1.51 3.61 5.21 7.87 11.17 7.87 7.31 0 11.84-4.51 11.84-13v-3.19h-.34c-2.18 2.69-6.38 5.04-11.68 5.04-11.09 0-21.25-9.66-21.25-22.09 0-12.52 10.16-22.26 21.25-22.26 5.29 0 9.49 2.35 11.68 4.96h.34v-3.61h9.25zm-8.56 20.92c0-7.81-5.21-13.52-11.84-13.52-6.72 0-12.35 5.71-12.35 13.52 0 7.73 5.63 13.36 12.35 13.36 6.63 0 11.84-5.63 11.84-13.36z',
+            'M225 3v65h-9.5V3h9.5z',
+            'M262.02 54.48l7.56 5.04c-2.44 3.61-8.32 9.83-18.48 9.83-12.6 0-22.01-9.74-22.01-22.18 0-13.19 9.49-22.18 20.92-22.18 11.51 0 17.14 9.16 18.98 14.11l1.01 2.52-29.65 12.28c2.27 4.45 5.8 6.72 10.75 6.72 4.96 0 8.4-2.44 10.92-6.14zm-23.27-7.98l19.82-8.23c-1.09-2.77-4.37-4.7-8.23-4.7-4.95 0-11.84 4.37-11.59 12.93z',
+            'M35.29 41.41V32H67c.31 1.64.47 3.58.47 5.68 0 7.06-1.93 15.79-8.15 22.01-6.05 6.3-13.78 9.66-24.02 9.66C16.32 69.35.36 53.89.36 34.91.36 15.93 16.32.47 35.3.47c10.5 0 17.98 4.12 23.6 9.49l-6.64 6.64c-4.03-3.78-9.49-6.72-16.97-6.72-13.86 0-24.7 11.17-24.7 25.03 0 13.86 10.84 25.03 24.7 25.03 8.99 0 14.11-3.61 17.39-6.89 2.66-2.66 4.41-6.46 5.1-11.65l-22.49.01z'
+        ],
+    };
+    window.currentFigureType = 'batman';
+    window.Easings = window.CanvasSvgParticles.Easings;
+
+    window.particlesOptions = {
+        root: document.getElementById('app'),
+        scene: {
+            backgroundColor: '#000',
+        },
+        connections: {
+            figureVisibilityDistance: 100,
+            backgroundVisibilityDistance: 100,
+            color: '#fff',
+        },
+        particles: {
+            backgroundParticles: {
+                count: 100,
+                color: '#fff',
+                radius: 2,
+            },
+            figure: {
+                paths: window.figures[window.currentFigureType],
+                color: '#f00',
+                radius: 2,
+                accuracyFactor: 0.05,
+                scaleToViewPortFactor: 0.9,
+                easing: window.CanvasSvgParticles.Easings.easeOutBack,
+                speed: 100,
+                // fit factor
+            },
+        },
+        loop: {
+            onBeforeRender() {
+                stats.begin();
+            },
+            onAfterRender() {
+                stats.end();
+            },
+        }
+    };
+    window.particles = new window.CanvasSvgParticles(window.particlesOptions);
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.7/dat.gui.min.js'></script>
+<script>
+    var gui = new dat.GUI();
+
+    var guiScene = gui.addFolder('scene');
+    guiScene.closed = false;
+    guiScene.addColor(window.particlesOptions.scene, 'backgroundColor').onFinishChange(update);
+
+    var guiConnections = gui.addFolder('connections');
+    guiConnections.addColor(window.particlesOptions.connections, 'color').onFinishChange(update);
+    guiConnections.add(window.particlesOptions.connections, 'figureVisibilityDistance', 0, 500).onFinishChange(update);
+    guiConnections.add(window.particlesOptions.connections, 'backgroundVisibilityDistance', 0, 500).onFinishChange(update);
+
+    var guiBackgroundParticles = gui.addFolder('backgroundParticles');
+    guiBackgroundParticles.addColor(window.particlesOptions.particles.backgroundParticles, 'color').onFinishChange(update);
+    guiBackgroundParticles.add(window.particlesOptions.particles.backgroundParticles, 'count', 0, 1000).onFinishChange(update);
+    guiBackgroundParticles.add(window.particlesOptions.particles.backgroundParticles, 'radius', 0, 10).onFinishChange(update);
+
+    var guiFigureParticles = gui.addFolder('figureParticles');
+    guiFigureParticles.addColor(window.particlesOptions.particles.figure, 'color').onFinishChange(update);
+    guiFigureParticles.add(window.particlesOptions.particles.figure, 'radius', 0, 10).onFinishChange(update);
+    guiFigureParticles.add(window.particlesOptions.particles.figure, 'accuracyFactor', 0, 0.15).onFinishChange(update);
+    guiFigureParticles.add(window.particlesOptions.particles.figure, 'scaleToViewPortFactor', 0, 1).onFinishChange(update);
+    guiFigureParticles.add(window.particlesOptions.particles.figure, 'paths', Object.keys(window.figures)).onChange(function (value) {
+        clearInterval(intervalId);
+        updateFigure(value);
+    });
+    guiFigureParticles.add(window.particlesOptions.particles.figure, 'easing', Object.keys(window.Easings)).onFinishChange(resetFigure);
+    guiFigureParticles.add(window.particlesOptions.particles.figure, 'speed', 50, 500).onFinishChange(resetFigure);
+
+    gui.add({
+        destroy: function () {
+            window.particles.destroy();
+        }
+    }, 'destroy');
+    gui.add({
+        create: function () {
+            window.particles = new window.CanvasSvgParticles(window.particlesOptions);
+        }
+    }, 'create');
+
+    function update() {
+        window.particles.updateConfig(window.particlesOptions);
+    }
+
+    function resetFigure() {
+        clearInterval(intervalId);
+        window.particlesOptions.particles.figure.paths = [];
+        update();
+        updateFigure(window.currentFigureType);
+    }
+
+    function updateFigure(value) {
+        window.currentFigureType = value;
+        window.particlesOptions.particles.figure.paths = window.figures[value];
+
+        if (value === 'google') {
+            window.particlesOptions.particles.figure.accuracyFactor = 0.15;
+            window.particlesOptions.connections.figureVisibilityDistance = 80;
+        } else if (value === 'spacex') {
+            window.particlesOptions.particles.figure.accuracyFactor = 0.15;
+            window.particlesOptions.particles.figure.scaleToViewPortFactor = 0.8;
+            window.particlesOptions.connections.figureVisibilityDistance = 150;
+        } else if (value === 'mcdonald') {
+            window.particlesOptions.particles.figure.accuracyFactor = 0.05;
+            window.particlesOptions.particles.figure.scaleToViewPortFactor = 0.6;
+            window.particlesOptions.connections.figureVisibilityDistance = 150;
+        } else {
+            window.particlesOptions.particles.figure.accuracyFactor = 0.05;
+            window.particlesOptions.particles.figure.scaleToViewPortFactor = 1;
+            window.particlesOptions.connections.figureVisibilityDistance = 100;
+        }
+
+        update();
+    }
+
+    var currentFigureIndex = 0;
+    var intervalId = setInterval(function () {
+        currentFigureIndex++;
+
+        if (currentFigureIndex >= Object.keys(window.figures).length) {
+            currentFigureIndex = 0;
+        }
+
+        updateFigure(Object.keys(window.figures)[currentFigureIndex]);
+    }, 10000);
+</script>
+</body>
+</html>

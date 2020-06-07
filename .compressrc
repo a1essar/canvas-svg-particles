@@ -1,0 +1,26 @@
+{
+  "test": ".",
+  "threshold": undefined,
+  "concurrency": 2,
+  "gzip": {
+    "enabled": true,
+    "numiterations": 15,
+    "blocksplitting": true,
+    "blocksplittinglast": false,
+    "blocksplittingmax": 15,
+    "zlib": false,
+    "zlibLevel": 9,
+    "zlibMemLevel": 9
+  },
+  "brotli": {
+    "enabled": true,
+    "mode": 0,
+    "quality": 11,
+    "lgwin": 24,
+    "enable_context_modeling": true,
+    "lgblock": undefined,
+    "nPostfix": undefined,
+    "nDirect": undefined
+  },
+  "compressOutput": false
+}

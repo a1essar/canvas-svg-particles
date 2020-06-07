@@ -1,0 +1,26 @@
+{
+  "name": "canvas-svg-particles",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/a1essar/canvas-svg-particles",
+  "author": "https://github.com/a1essar",
+  "license": "MIT",
+  "keywords": [
+    "particle",
+    "particles",
+    "canvas",
+    "canvas animation",
+    "svg"
+  ],
+  "main": "./dist/main.js",
+  "scripts": {
+    "dev": "parcel ./sample/index.html --global CanvasSvgParticles",
+    "build": "parcel build ./src/main.ts --global CanvasSvgParticles",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "parcel-bundler": "1.12.4",
+    "parcel-plugin-compress": "2.0.1",
+    "typescript": "3.8.3"
+  }
+}

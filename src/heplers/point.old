@@ -1,0 +1,43 @@
+import {hexToRGBA} from './string';
+
+export class Vector2 {
+    constructor(
+        public readonly x: number,
+        public readonly y: number,
+    ) {}
+
+    static add = (a: Vector2, b: Vector2) => new Vector2(
+        a.x + b.x,
+        a.y + b.y,
+    );
+
+    static sub = (a: Vector2, b: Vector2) => new Vector2(
+        a.x - b.x,
+        a.y - b.y,
+    );
+
+    static div = (a: Vector2, b: Vector2) => new Vector2(
+        a.x / b.x,
+        a.y / b.y,
+    );
+
+    static mul = (a: Vector2, b: Vector2) => new Vector2(
+        a.x * b.x,
+        a.y * b.y,
+    );
+
+    static getDistance = (a: Vector2, b: Vector2) => {
+        const dx = a.x - b.x;
+        const dy = a.y - b.y;
+        return Math.sqrt(dx*dx + dy*dy);
+    };
+}
+
+export function getCalculatedColorByDistance(
+    distance: number,
+    visibilityDistance: number,
+    color: string,
+): string {
+    const alpha = 1 - distance/visibilityDistance;
+    return hexToRGBA(color, alpha);
+}
